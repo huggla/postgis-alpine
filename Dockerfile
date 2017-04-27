@@ -1,6 +1,6 @@
 FROM postgres:alpine
 
-RUN apk --no-cache add ssh
+RUN apk --no-cache add openssh
 
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=password
