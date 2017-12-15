@@ -2,4 +2,4 @@ FROM mdillon/postgis:10-alpine
 
 VOLUME /avolume
 WORKDIR /avolume/subdir
-RUN echo hello > /avolume/subdir/hello
+RUN chown nobody /avolume/subdir && touch /avolume/subdir/file
