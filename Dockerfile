@@ -1,6 +1,5 @@
 FROM mdillon/postgis:10-alpine
 
-VOLUME /avolume
-WORKDIR /avolume/subdir
-COPY ./Dockerfile /avolume/subdir/Dockerfile
-RUN echo hello > /avolume/subdir/Dockerfile
+VOLUME /avolume/subdir
+WORKDIR /avolume
+COPY ./Dockerfile /avolume/subdir
