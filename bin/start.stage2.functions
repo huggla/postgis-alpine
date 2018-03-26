@@ -45,10 +45,11 @@ listfromfile(){
    echo "$list" | /usr/bin/cut -c 5- | /usr/bin/tr -dc '[:alnum:]_ %,\052\055.=/\012'
 }
 makealloftypefromlist(){
-   set +e
    local IFS=?
+   set +e
    local matches="$(echo "$2" | /bin/grep -i "_$1 *=")"
    set -e
+   local IFS=$(echo -en "\n\b")
    for row in $matches
    do
       local obj="$(echo "$row" | /usr/bin/awk -F= '{s=""; for (i=2; i < NF; i++) s = s $i "="; print s $NF; exit;}')"
