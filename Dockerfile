@@ -16,8 +16,8 @@ ENV BUILDTIME_ENVIRONMENT="$BIN_DIR/buildtime_environment" \
 ENV LANG="en_US.utf8" \
     PG_MAJOR="10" \
     PG_VERSION="10.3" \
-    PG_SHA256="6ea268780ee35e88c65cdb0af7955ad90b7d0ef34573867f223f14e43467931a"
-ENV BEV_CONFIG_FILE="$CONFIG_DIR/pgbouncer.ini"
+    PG_SHA256="6ea268780ee35e88c65cdb0af7955ad90b7d0ef34573867f223f14e43467931a" \
+    BEV_CONFIG_FILE="$CONFIG_DIR/postgresql.conf"
 # ---------------------------------------------------------------------
 
 COPY ./bin ${BIN_DIR}
@@ -72,21 +72,11 @@ USER ${BEV_NAME}
 
 # Image-specific runtime environment variables, prefixed with "REV_".
 # ---------------------------------------------------------------------
-ENV REV_PGDATA_DIR="/var/lib/postgresql/data" \
- && REV_UNIX_SOCKET_DIR="/var/run/postgresql" \
-
-ENV REV_DATABASES="*=port=5432" \
-    REV_DATABASE_USERS="" \
-    REV_param_auth_file="$CONFIG_DIR/userlist.txt" \
-    REV_param_auth_hba_file="$CONFIG_DIR/pg_hba.conf" \
-    
-    REV_param_listen_addr="*"
+ENV REV_param_data_directory="/$BEV_NAME" \
+    REV_param_hba_file="$CONFIG_DIR/pg_hba.conf" \
+    REV_param_ident_file="$CONFIG_DIR/pg_ident.conf"
 # ---------------------------------------------------------------------
 
 ENV PATH="$BIN_DIR"
 
 CMD ["sudo","start"]
-
-FROM mdillon/postgis:10-alpine
-
-COPY ./extension/* /usr/local/share/postgresql/extension/
