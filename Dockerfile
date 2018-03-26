@@ -66,20 +66,20 @@ RUN apk add --no-cache --virtual .fetch-deps ca-certificates openssl tar \
  && rm -rf /usr/src/postgresql /usr/local/share/doc /usr/local/share/man \
  && find /usr/local -name '*.a' -delete \
  && sed -ri "s!^#?(listen_addresses)\s*=\s*\S+.*!\1 = '*'!" /usr/local/share/postgresql/postgresql.conf.sample
- && mkdir -p /var/run/postgresql && chown -R postgres:postgres /var/run/postgresql && chmod 2777 /var/run/postgresql
 # ---------------------------------------------------------------------
     
 USER ${BEV_NAME}
 
 # Image-specific runtime environment variables, prefixed with "REV_".
 # ---------------------------------------------------------------------
-ENV REV_PGDATA="/var/lib/postgresql/data"
+ENV REV_PGDATA_DIR="/var/lib/postgresql/data" \
+ && REV_UNIX_SOCKET_DIR="/var/run/postgresql" \
 
 ENV REV_DATABASES="*=port=5432" \
     REV_DATABASE_USERS="" \
     REV_param_auth_file="$CONFIG_DIR/userlist.txt" \
     REV_param_auth_hba_file="$CONFIG_DIR/pg_hba.conf" \
-    REV_param_unix_socket_dir="/run/pgbouncer" \
+    
     REV_param_listen_addr="*"
 # ---------------------------------------------------------------------
 
