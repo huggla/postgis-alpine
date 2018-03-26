@@ -23,8 +23,8 @@ ENV LANG="en_US.utf8" \
 COPY ./bin ${BIN_DIR}
     
 RUN env | grep "^BEV_" > "$BUILDTIME_ENVIRONMENT" \
- && $(getent group $BEV_NAME || addgroup -S $BEV_NAME) \
- && $(getent passwd $BEV_NAME || adduser -D -S -H -s /bin/false -u 100 -G $BEV_NAME $BEV_NAME) \
+ && (getent group $BEV_NAME || addgroup -S $BEV_NAME) \
+ && (getent passwd $BEV_NAME || adduser -D -S -H -s /bin/false -u 100 -G $BEV_NAME $BEV_NAME) \
  && touch "$RUNTIME_ENVIRONMENT" \
  && apk add --no-cache sudo \
  && echo 'Defaults lecture="never"' > "$SUDOERS_DIR/docker1" \
