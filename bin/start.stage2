@@ -15,5 +15,18 @@ then
 
 # Image-specific code
 # --------------------------------------------
+   if [ ! -s "$CONFIG_FILE" ]
+   then
+      readonly config_parameters="$(var param)"
+      for param in $config_parameters
+      do
+         param_value="$(var param $param)"
+         if [ -n "$param_value" ]
+         then
+            echo -n "$param" >> "$CONFIG_FILE"
+            echo "=$param_value" >> "$CONFIG_FILE"
+         fi
+      done
+   fi
 fi
 #exec /usr/bin/env -i "/bin/bash"
