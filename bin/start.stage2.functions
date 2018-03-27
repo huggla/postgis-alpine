@@ -44,15 +44,18 @@ listfromfile(){
    local list="$(/bin/cat "$1")"
    echo "$list" | /usr/bin/cut -c 5- | /usr/bin/tr -dc '[:alnum:]_ %,\052\055.=/\012'
 }
-makealloftypefromlist(){
-   set +e
-   local matches="$(echo "$2" | /bin/grep -i "_$1 *=")"
-   set -e
-   for row in $matches
+makeallfromlist(){
+   local searchlist="file dir"
+   for str in $searchlist
    do
-      local obj="$(echo "$row" | /usr/bin/awk -F= '{s=""; for (i=2; i < NF; i++) s = s $i "="; print s $NF; exit;}')"
-      echo "$obj"
-      make$1 "$obj"
+      set +e
+      local matches="$(echo "$1" | /bin/grep -iE "_$str(ectory)? *=")"
+      set -e
+      for row in $matches
+      do
+         local obj="$(echo "$row" | /usr/bin/awk -F= '{s=""; for (i=2; i < NF; i++) s = s $i "="; print s $NF; exit;}')"
+         make$str "$obj"
+      done
    done
 }
 makepwfile(){
