@@ -53,7 +53,7 @@ makeallfromenvlist(){
       set -e
       for match in $matches
       do
-         local obj="$(echo "$match" | /usr/bin/awk -F= '{s=""; for (i=2; i < NF; i++) s = s $i "="; print s $NF; exit;}')"
+         local obj="$(echo "$match" | /usr/bin/awk -F= '{s=""; for (i=2; i < NF; i++) s = s $i "="; print s $NF; exit;}' | tr -d "'")"
          make$type "$obj"
       done
    done
