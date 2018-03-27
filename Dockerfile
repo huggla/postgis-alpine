@@ -74,7 +74,8 @@ USER ${BEV_NAME}
 # ---------------------------------------------------------------------
 ENV REV_param_data_directory="'/$BEV_NAME'" \
     REV_param_hba_file="'$CONFIG_DIR/pg_hba.conf'" \
-    REV_param_ident_file="'$CONFIG_DIR/pg_ident.conf'"
+    REV_param_ident_file="'$CONFIG_DIR/pg_ident.conf'" \
+    REV_param_listen_addresses="'*'"
 # ---------------------------------------------------------------------
 
 ENV PATH="$BIN_DIR"
