@@ -7,14 +7,14 @@ ENV BEV_NAME="postgres"
 
 ENV BIN_DIR="/usr/local/bin" \
     SUDOERS_DIR="/etc/sudoers.d" \
-    CONFIG_DIR="/etc/$BEV_NAME"
+    CONFIG_DIR="/etc/$BEV_NAME" \
+    LANG="en_US.UTF-8"
 ENV BUILDTIME_ENVIRONMENT="$BIN_DIR/buildtime_environment" \
     RUNTIME_ENVIRONMENT="$BIN_DIR/runtime_environment"
 
 # Image-specific BEV_CONFIG_FILE variable and other buildtime environment variables.
 # ---------------------------------------------------------------------
-ENV LANG="en_US.UTF-8" \
-    PG_MAJOR="10" \
+ENV PG_MAJOR="10" \
     PG_VERSION="10.3" \
     PG_SHA256="6ea268780ee35e88c65cdb0af7955ad90b7d0ef34573867f223f14e43467931a" \
     BEV_CONFIG_FILE="$CONFIG_DIR/postgresql.conf"
