@@ -73,6 +73,7 @@ USER ${BEV_NAME}
 # Image-specific runtime environment variables, prefixed with "REV_".
 # ---------------------------------------------------------------------
 ENV REV_LOCALE="en_US.UTF-8" \
+    REV_ENCODING="UTF8" \
     REV_param_data_directory="'/pgdata'" \
     REV_param_hba_file="'$CONFIG_DIR/pg_hba.conf'" \
     REV_param_ident_file="'$CONFIG_DIR/pg_ident.conf'" \
