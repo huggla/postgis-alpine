@@ -14,13 +14,18 @@ ENV BUILDTIME_ENVIRONMENT="$BIN_DIR/buildtime_environment" \
 
 # Image-specific BEV_CONFIG_FILE variable and other buildtime environment variables.
 # ---------------------------------------------------------------------
-ENV PG_MAJOR="10" \
+ENV BEV_CONFIG_FILE="$CONFIG_DIR/postgresql.conf" \
+    PG_MAJOR="10" \
     PG_VERSION="10.3" \
-    PG_SHA256="6ea268780ee35e88c65cdb0af7955ad90b7d0ef34573867f223f14e43467931a" \
-    BEV_CONFIG_FILE="$CONFIG_DIR/postgresql.conf"
+    PG_SHA256="6ea268780ee35e88c65cdb0af7955ad90b7d0ef34573867f223f14e43467931a"
 # ---------------------------------------------------------------------
 
 COPY ./bin ${BIN_DIR}
+
+# Image-specific COPY commands.
+# ---------------------------------------------------------------------
+COPY ./extension/* /usr/local/share/postgresql/extension/
+# ---------------------------------------------------------------------
     
 RUN env | grep "^BEV_" > "$BUILDTIME_ENVIRONMENT" \
  && (getent group $BEV_NAME || addgroup -S $BEV_NAME) \
