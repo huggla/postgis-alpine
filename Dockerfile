@@ -74,6 +74,8 @@ USER ${BEV_NAME}
 # ---------------------------------------------------------------------
 ENV REV_LOCALE="en_US.UTF-8" \
     REV_ENCODING="UTF8" \
+    REV_TEXT_SEARCH_CONFIG="english" \
+    REV_HBA="local all all trust, host all all 127.0.0.1/32 trust, host all all ::1/128 trust, host all all all md5" \
     REV_param_data_directory="'/pgdata'" \
     REV_param_hba_file="'$CONFIG_DIR/pg_hba.conf'" \
     REV_param_ident_file="'$CONFIG_DIR/pg_ident.conf'" \
