@@ -40,9 +40,21 @@ then
    readonly param_data_directory="$(var param data_directory)"
    /bin/chown "$NAME" "$param_data_directory"
    /bin/chmod 0700 "$param_data_directory"
+   readonly param_unix_socket_directory="$(var param unix_socket_directory)"
+   chmod g+rw "$param_unix_socket_directory"
    if [ ! -s "$param_data_directory/PG_VERSION" ]
    then
-      user="postgres"
-      userpwfile="$(makepwfile)"
+      readonly user="postgres"
+      readonly pwfile="$(makepwfile)"
+      readonly LOCALE="$(var - LOCALE)"
+      readonly ENCODING="$(var - ENCODING)"
+      /bin/chmod go=rx /bin
+      /usr/bin/env -i sudo -u postgres /usr/local/bin/initdb --pgdata="$param_data_directory" --locale="$LOCALE" --encoding="$ENCODING" --username="$user" --pwfile="$pwfile"
+      /bin/chmod go= /bin
+      trydeletefile "$pwfile"
+      trydeletefile "$param_data_directory/postgresql.conf"
+      trydeletefile "$param_data_directory/pg_hba.conf"
+      trydeletefile "$param_data_directory/pg_ident.conf"
+   fi
 fi
 #exec /usr/bin/env -i "/bin/bash"
