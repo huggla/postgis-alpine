@@ -48,8 +48,9 @@ then
       readonly pwfile="$(makepwfile)"
       readonly LOCALE="$(var - LOCALE)"
       readonly ENCODING="$(var - ENCODING)"
+      readonly TEXT_SEARCH_CONFIG="$(var - TEXT_SEARCH_CONFIG)"
       /bin/chmod go=rx /bin
-      /usr/bin/env -i sudo -u postgres /usr/local/bin/initdb --pgdata="$param_data_directory" --locale="$LOCALE" --encoding="$ENCODING" --username="$user" --pwfile="$pwfile"
+      /usr/bin/env -i sudo -u postgres /usr/local/bin/initdb --pgdata="$param_data_directory" --locale="$LOCALE" --encoding="$ENCODING" --text-search-config="$TEXT_SEARCH_CONFIG" --username="$user" --pwfile="$pwfile"
       /bin/chmod go= /bin
       trydeletefile "$pwfile"
       trydeletefile "$param_data_directory/postgresql.conf"
