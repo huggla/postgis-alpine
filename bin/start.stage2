@@ -9,12 +9,13 @@ readonly CONFIG_FILE="$(var - CONFIG_FILE)"
 readonly RUNTIME_ENVIRONMENT="$BIN_DIR/runtime_environment"
 if [ -f "$RUNTIME_ENVIRONMENT" ]
 then
-   readonly env_list="$env_list"$'\n'"$(listfromfile "$RUNTIME_ENVIRONMENT")"
+   env_list="$env_list"$'\n'"$(listfromfile "$RUNTIME_ENVIRONMENT")"
    makeallfromenvlist
   # /bin/rm "$RUNTIME_ENVIRONMENT"
 
 # Image-specific code
 # --------------------------------------------
+   readonly env_list
    IFS_bak=$IFS
    IFS=$(echo -en "\n\b,")
    if [ ! -s "$CONFIG_FILE" ]
