@@ -40,7 +40,6 @@ then
          trim "$row" >> "$param_hba_file"
       done
    fi
-   exit
    IFS=$IFS_bak
    readonly param_data_directory="$(var param data_directory | tr -d "'")"
    /bin/chown $NAME:$NAME "$param_data_directory"
