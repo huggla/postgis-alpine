@@ -31,7 +31,7 @@ then
          fi
       done
    fi
-   readonly param_hba_file="$(var param hba_file)"
+   readonly param_hba_file="$(var param hba_file | tr -d "'")"
    if [ ! -s "$param_hba_file" ]
    then
       readonly HBA="$(var - HBA)"
