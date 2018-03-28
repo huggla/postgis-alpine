@@ -28,5 +28,21 @@ then
          fi
       done
    fi
+   readonly param_hba_file="$(var param hba_file)"
+   if [ ! -s "$param_hba_file" ]
+   then
+      readonly HBA="$(var - HBA)"
+      for row in $HBA
+      do
+         trim "$row" >> "$param_hba_file"
+      done
+   fi
+   readonly param_data_directory="$(var param data_directory)"
+   /bin/chown "$NAME" "$param_data_directory"
+   /bin/chmod 0700 "$param_data_directory"
+   if [ ! -s "$param_data_directory/PG_VERSION" ]
+   then
+      user="postgres"
+      userpwfile="$(makepwfile)"
 fi
 #exec /usr/bin/env -i "/bin/bash"
