@@ -15,6 +15,8 @@ then
 
 # Image-specific code
 # --------------------------------------------
+   IFS_bak=$IFS
+   IFS=$(echo -en "\n\b,")
    if [ ! -s "$CONFIG_FILE" ]
    then
       readonly config_parameters="$(var param)"
@@ -37,6 +39,7 @@ then
          trim "$row" >> "$param_hba_file"
       done
    fi
+   IFS=$IFS_bak
    readonly param_data_directory="$(var param data_directory)"
    /bin/chown "$NAME" "$param_data_directory"
    /bin/chmod 0700 "$param_data_directory"
