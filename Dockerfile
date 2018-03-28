@@ -72,7 +72,7 @@ USER ${BEV_NAME}
 
 # Image-specific runtime environment variables, prefixed with "REV_".
 # ---------------------------------------------------------------------
-ENV REV_param_data_directory="'/$BEV_NAME'" \
+ENV REV_param_data_directory="'/pgdata'" \
     REV_param_hba_file="'$CONFIG_DIR/pg_hba.conf'" \
     REV_param_ident_file="'$CONFIG_DIR/pg_ident.conf'" \
     REV_param_listen_addresses="'*'"
