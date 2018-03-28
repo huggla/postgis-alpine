@@ -60,7 +60,7 @@ RUN apk add --no-cache --virtual .fetch-deps ca-certificates openssl tar \
  && make install-world \
  && make -C contrib install \
  && runDeps="$(scanelf --needed --nobanner --format '%n#p' --recursive /usr/local | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' )" \
- && apk add --no-cache --virtual .postgresql-rundeps $runDeps bash su-exec tzdata \
+ && apk add --no-cache --virtual .postgresql-rundeps $runDeps \
  && apk del .fetch-deps .build-deps \
  && cd / \
  && rm -rf /usr/src/postgresql /usr/local/share/doc /usr/local/share/man \
