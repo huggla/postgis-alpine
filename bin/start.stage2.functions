@@ -64,7 +64,7 @@ makepwfile(){
    local pwfile="$(var - password_file_$user_lc)"
    if [ -z "$pwfile" ]
    then
-      pwfile="$BIN_DIR/$user_lc"
+      pwfile="$BIN_DIR/$user_lc-pw"
    fi
    makefile "$pwfile"
    if [ ! -s "$pwfile" ]
