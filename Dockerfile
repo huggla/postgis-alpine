@@ -13,7 +13,7 @@ ENV BUILDTIME_ENVIRONMENT="$BIN_DIR/buildtime_environment" \
 
 # Image-specific BEV_CONFIG_FILE variable and other buildtime environment variables.
 # ---------------------------------------------------------------------
-ENV LANG="en_US.utf8" \
+ENV LANG="en_US.UTF-8" \
     PG_MAJOR="10" \
     PG_VERSION="10.3" \
     PG_SHA256="6ea268780ee35e88c65cdb0af7955ad90b7d0ef34573867f223f14e43467931a" \
@@ -72,10 +72,13 @@ USER ${BEV_NAME}
 
 # Image-specific runtime environment variables, prefixed with "REV_".
 # ---------------------------------------------------------------------
-ENV REV_param_data_directory="'/pgdata'" \
+ENV REV_LOCALE="en_US.UTF-8" \
+    REV_param_data_directory="'/pgdata'" \
     REV_param_hba_file="'$CONFIG_DIR/pg_hba.conf'" \
     REV_param_ident_file="'$CONFIG_DIR/pg_ident.conf'" \
-    REV_param_listen_addresses="'*'"
+    REV_param_unix_socket_directory="'/var/run/postgresql'" \
+    REV_param_listen_addresses="'*'" \
+    REV_param_timezone="'UTC'"
 # ---------------------------------------------------------------------
 
 ENV PATH="$BIN_DIR"
