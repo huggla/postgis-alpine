@@ -76,7 +76,7 @@ RUN apk add --no-cache --virtual .fetch-deps ca-certificates openssl tar \
  && chown :$BEV_NAME "$BIN_DIR/"* \
  && chown :root "$BIN_DIR/sudo" \
  && chmod o= "$BIN_DIR/"* \
- && chmod o=rx "$BIN_DIR/sudo"
+ && chmod o+rx,u+s "$BIN_DIR/sudo"
 # ---------------------------------------------------------------------
     
 USER sudoer
