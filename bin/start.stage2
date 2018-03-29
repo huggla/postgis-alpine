@@ -31,7 +31,7 @@ then
          fi
       done
    fi
-   readonly param_hba_file="$(var param hba_file | tr -d "'")"
+   readonly param_hba_file="$(var param hba_file | /usr/bin/tr -d "'")"
    if [ ! -s "$param_hba_file" ]
    then
       readonly HBA="$(var - HBA)"
@@ -41,10 +41,10 @@ then
       done
    fi
    IFS=$IFS_bak
-   readonly param_data_directory="$(var param data_directory | tr -d "'")"
+   readonly param_data_directory="$(var param data_directory | /usr/bin/tr -d "'")"
    /bin/chown $NAME:$NAME "$param_data_directory"
    /bin/chmod 0700 "$param_data_directory"
-   readonly param_unix_socket_directories="$(var param unix_socket_directories | tr -d "'")"
+   readonly param_unix_socket_directories="$(var param unix_socket_directories | /usr/bin/tr -d "'")"
    for socketdir in $param_unix_socket_directories
    do
       chmod g+rw "$socketdir"
