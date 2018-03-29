@@ -1,11 +1,12 @@
 #!/bin/sh
 set -e +a +m +s +i -f
 
-readonly BIN_DIR="$(/usr/bin/dirname $0)"
+readonly BIN_DIR="$(/usr/bin/dirname "$0")"
 . "$(/usr/bin/dirname "$0")/start.stage2.functions"
 env_list="$(listfromfile "$BIN_DIR/buildtime_environment")"
 readonly NAME="$(var - NAME)"
 readonly CONFIG_FILE="$(var - CONFIG_FILE)"
+readonly CONFIG_DIR="$(/usr/bin/dirname "$CONFIG_FILE")"
 readonly RUNTIME_ENVIRONMENT="$BIN_DIR/runtime_environment"
 if [ -f "$RUNTIME_ENVIRONMENT" ]
 then
@@ -63,6 +64,29 @@ then
       trydeletefile "$param_data_directory/postgresql.conf"
       trydeletefile "$param_data_directory/pg_hba.conf"
       trydeletefile "$param_data_directory/pg_ident.conf"
+
+# internal start of server in order to allow set-up using psql-client
+# does not listen on external TCP/IP and waits until start finishes
+		pg_ctl --pgdata="$param_data_directory" --options="-c listen_addresses='localhost'" --wait start
+
+		psql_cmd="psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres"
+
+		for file in /docker-entrypoint-initdb.d/*; do
+			case "$f" in
+				*.sh)     echo "$0: running $f"; . "$f" ;;
+				*.sql)    echo "$0: running $f"; "${psql[@]}" -f "$f"; echo ;;
+				*.sql.gz) echo "$0: running $f"; gunzip -c "$f" | "${psql[@]}"; echo ;;
+				*)        echo "$0: ignoring $f" ;;
+			esac
+			echo
+		done
+
+		PGUSER="${PGUSER:-postgres}" \
+		pg_ctl -D "$PGDATA" -m fast -w stop
+
+		echo
+		echo 'PostgreSQL init process complete; ready for start up.'
+		echo
    fi
 fi
 #exec /usr/bin/env -i "/bin/bash"
