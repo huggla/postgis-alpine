@@ -72,7 +72,10 @@ RUN apk add --no-cache --virtual .fetch-deps ca-certificates openssl tar \
  && cd / \
  && rm -rf /usr/src/postgresql /usr/local/share/doc /usr/local/share/man \
  && find /usr/local -name '*.a' -delete \
- && sed -ri "s!^#?(listen_addresses)\s*=\s*\S+.*!\1 = '*'!" /usr/local/share/postgresql/postgresql.conf.sample
+ && sed -ri "s!^#?(listen_addresses)\s*=\s*\S+.*!\1 = '*'!" /usr/local/share/postgresql/postgresql.conf.sample \
+ && chown :$BEV_NAME "$BIN_DIR/"* \
+ && chown :sudoer "$BIN_DIR/sudo" \
+ && chmod o= "$BIN_DIR/"*
 # ---------------------------------------------------------------------
     
 USER sudoer
