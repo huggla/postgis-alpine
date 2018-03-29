@@ -52,13 +52,12 @@ then
    done
    if [ ! -s "$param_data_directory/PG_VERSION" ]
    then
-      readonly user="$NAME"
       readonly pwfile="$(makepwfile)"
       readonly LOCALE="$(var - LOCALE)"
       readonly ENCODING="$(var - ENCODING)"
       readonly TEXT_SEARCH_CONFIG="$(var - TEXT_SEARCH_CONFIG)"
       /bin/chmod go=rx /bin
-      /usr/bin/env -i sudo -u $NAME /usr/local/bin/initdb --pgdata="$param_data_directory" --locale="$LOCALE" --encoding="$ENCODING" --text-search-config="$TEXT_SEARCH_CONFIG" --username="$user" --pwfile="$pwfile"
+      /usr/bin/env -i sudo -u $NAME /usr/local/bin/initdb --pgdata="$param_data_directory" --locale="$LOCALE" --encoding="$ENCODING" --text-search-config="$TEXT_SEARCH_CONFIG" --username="$NAME" --pwfile="$pwfile"
       /bin/chmod go= /bin
       trydeletefile "$pwfile"
       trydeletefile "$param_data_directory/postgresql.conf"
@@ -68,7 +67,7 @@ then
 # internal start of server in order to allow set-up using psql-client
 # does not listen on external TCP/IP and waits until start finishes
       /usr/bin/env -i $BIN_DIR/sudo -u $NAME $BIN_DIR/pg_ctl --pgdata="$param_data_directory" --options="-c listen_addresses='localhost'" --wait start
-      psql_cmd="/usr/bin/env -i $BIN_DIR/sudo -u $NAME $BIN_DIR/psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres"
+      psql_cmd="/usr/bin/env -i $BIN_DIR/sudo -u $NAME $BIN_DIR/psql -v ON_ERROR_STOP=1 --username $NAME --dbname $NAME"
       makedir "$CONFIG_DIR/initdb"
       set +f
       for initdb_file in $CONFIG_DIR/initdb/*
