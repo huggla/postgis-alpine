@@ -12,7 +12,7 @@ ENV BIN_DIR="/usr/local/bin" \
 ENV BUILDTIME_ENVIRONMENT="$BIN_DIR/buildtime_environment" \
     RUNTIME_ENVIRONMENT="$BIN_DIR/runtime_environment"
 
-# Image-specific BEV_CONFIG_FILE variable and other buildtime environment variables.
+# Image-specific buildtime environment variables.
 # ---------------------------------------------------------------------
 ENV BEV_CONFIG_FILE="$CONFIG_DIR/postgresql.conf" \
     PG_MAJOR="10" \
@@ -66,7 +66,6 @@ RUN apk add --no-cache --virtual .fetch-deps ca-certificates openssl tar \
  && rm -rf /usr/src/postgresql /usr/local/share/doc /usr/local/share/man \
  && find /usr/local -name '*.a' -delete \
  && sed -ri "s!^#?(listen_addresses)\s*=\s*\S+.*!\1 = '*'!" /usr/local/share/postgresql/postgresql.conf.sample
- 
 # ---------------------------------------------------------------------
 
 RUN chmod go= /bin /sbin /usr/bin /usr/sbin \
@@ -80,7 +79,7 @@ RUN chmod go= /bin /sbin /usr/bin /usr/sbin \
  
 USER sudoer
 
-# Image-specific runtime environment variables, prefixed with "REV_".
+# Image-specific runtime environment variables.
 # ---------------------------------------------------------------------
 ENV REV_LOCALE="en_US.UTF-8" \
     REV_ENCODING="UTF8" \
