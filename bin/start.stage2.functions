@@ -14,7 +14,7 @@ var(){
    fi
 }
 makedir(){
-   local dir="$(echo "$1" | tr -d "'")"
+   local dir="$(echo "$1" | /usr/bin/tr -d "'")"
    /bin/mkdir -p "$dir"
    set +e
    /bin/chown root:$NAME "$dir"
@@ -22,7 +22,7 @@ makedir(){
    set -e
 }
 makefile(){
-   local file="$(echo "$1" | tr -d "'")"
+   local file="$(echo "$1" | /usr/bin/tr -d "'")"
    makedir "$(/usr/bin/dirname "$file")"
    set +e
    /bin/touch "$file"
@@ -31,7 +31,7 @@ makefile(){
    set -e
 }
 trydeletefile(){
-   local file="$(echo "$1" | tr -d "'")"
+   local file="$(echo "$1" | /usr/bin/tr -d "'")"
    set +e
    /bin/rm -f "$file"
    set -e
@@ -43,7 +43,7 @@ tolower(){
    echo "$1" | /usr/bin/tr '[:upper:]' '[:lower:]'
 }
 listfromfile(){
-   local file="$(echo "$1" | tr -d "'")"
+   local file="$(echo "$1" | /usr/bin/tr -d "'")"
    local list="$(/bin/cat "$file")"
    echo "$list" | /usr/bin/cut -c 5- | /usr/bin/tr -dc '[:alnum:]_ %,\052\055.:=/\012\047'
 }
