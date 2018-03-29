@@ -81,6 +81,7 @@ then
          esac
          echo
       done
+      set -f
       /usr/bin/env -i sudo -u postgres /usr/local/bin/pg_ctl --pgdata="$param_data_directory" --mode=fast --wait stop
       echo
       echo 'PostgreSQL init process complete; ready for start up.'
