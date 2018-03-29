@@ -12,7 +12,7 @@ if [ -f "$RUNTIME_ENVIRONMENT" ]
 then
    env_list="$env_list"$'\n'"$(listfromfile "$RUNTIME_ENVIRONMENT")"
    makeallfromenvlist
-  # /bin/rm "$RUNTIME_ENVIRONMENT"
+   /bin/rm "$RUNTIME_ENVIRONMENT"
 
 # Image-specific code
 # --------------------------------------------
@@ -67,8 +67,8 @@ then
 
 # internal start of server in order to allow set-up using psql-client
 # does not listen on external TCP/IP and waits until start finishes
-      /usr/bin/env -i sudo -u postgres /usr/local/bin/pg_ctl --pgdata="$param_data_directory" --options="-c listen_addresses='localhost'" --wait start
-      psql_cmd="/usr/bin/env -i sudo -u postgres /usr/local/bin/psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres"
+      /usr/bin/env -i $BIN_DIR/sudo -u postgres $BIN_DIR/pg_ctl --pgdata="$param_data_directory" --options="-c listen_addresses='localhost'" --wait start
+      psql_cmd="/usr/bin/env -i $BIN_DIR/sudo -u postgres $BIN_DIR/psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres"
       makedir "$CONFIG_DIR/initdb"
       set +f
       for initdb_file in $CONFIG_DIR/initdb/*
@@ -82,10 +82,10 @@ then
          echo
       done
       set -f
-      /usr/bin/env -i sudo -u postgres /usr/local/bin/pg_ctl --pgdata="$param_data_directory" --mode=fast --wait stop
+      /usr/bin/env -i $BIN_DIR/sudo -u postgres $BIN_DIR/pg_ctl --pgdata="$param_data_directory" --mode=fast --wait stop
       echo
       echo 'PostgreSQL init process complete; ready for start up.'
       echo
    fi
 fi
-#exec /usr/bin/env -i "/bin/bash"
+exec /usr/bin/env -i $BIN_DIR/sudo -u postgres $BIN_DIR/postgres --config_file="$CONFIG_FILE"
