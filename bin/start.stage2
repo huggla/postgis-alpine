@@ -44,8 +44,11 @@ then
    readonly param_data_directory="$(var param data_directory | tr -d "'")"
    /bin/chown $NAME:$NAME "$param_data_directory"
    /bin/chmod 0700 "$param_data_directory"
-   readonly param_unix_socket_directory="$(var param unix_socket_directory | tr -d "'")"
-   chmod g+rw "$param_unix_socket_directory"
+   readonly param_unix_socket_directories="$(var param unix_socket_directories | tr -d "'")"
+   for socketdir in $param_unix_socket_directories
+   do
+      chmod g+rw "$socketdir"
+   done
    if [ ! -s "$param_data_directory/PG_VERSION" ]
    then
       readonly user="postgres"
