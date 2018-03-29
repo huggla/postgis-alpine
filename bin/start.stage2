@@ -47,7 +47,7 @@ then
    readonly param_unix_socket_directories="$(var param unix_socket_directories | /usr/bin/tr -d "'")"
    for socketdir in $param_unix_socket_directories
    do
-      chmod g+rw "$socketdir"
+      /bin/chmod g+rw "$socketdir"
    done
    if [ ! -s "$param_data_directory/PG_VERSION" ]
    then
