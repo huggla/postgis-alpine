@@ -84,7 +84,7 @@ ENV REV_LOCALE="en_US.UTF-8" \
     REV_param_data_directory="'/pgdata'" \
     REV_param_hba_file="'$CONFIG_DIR/pg_hba.conf'" \
     REV_param_ident_file="'$CONFIG_DIR/pg_ident.conf'" \
-    REV_param_unix_socket_directory="'/var/run/postgresql'" \
+    REV_param_unix_socket_directories="'/var/run/postgresql'" \
     REV_param_listen_addresses="'*'" \
     REV_param_timezone="'UTC'"
 # ---------------------------------------------------------------------
