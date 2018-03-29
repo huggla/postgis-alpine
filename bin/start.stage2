@@ -71,13 +71,16 @@ then
       set +f
       for initdb_file in $CONFIG_DIR/initdb/*
       do
-         case "$initdb_file" in
-            *.sh)     echo "Running $initdb_file"; . "$initdb_file" ;;
-            *.sql)    echo "Running $initdb_file"; $psql_cmd -f "$initdb_file"; echo ;;
-            *.sql.gz) echo "Running $initdb_file"; /bin/gunzip -c "$initdb_file" | $psql_cmd; echo ;;
-            *)        echo "Ignoring $initdb_file" ;;
-         esac
-         echo
+         if [ -f "$initdb_file" ]
+         then
+            case "$initdb_file" in
+               *.sh)     echo "Running $initdb_file"; . "$initdb_file" ;;
+               *.sql)    echo "Running $initdb_file"; $psql_cmd -f "$initdb_file"; echo ;;
+               *.sql.gz) echo "Running $initdb_file"; /bin/gunzip -c "$initdb_file" | $psql_cmd; echo ;;
+               *)        echo "Ignoring $initdb_file" ;;
+            esac
+            echo
+         fi
       done
       set -f
       /usr/bin/env -i $BIN_DIR/sudo -u $NAME $BIN_DIR/pg_ctl --pgdata="$CONFIG_DIR" --mode=fast --wait stop
