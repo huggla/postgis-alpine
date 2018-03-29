@@ -94,5 +94,14 @@ then
       echo 'PostgreSQL init process complete; ready for start up.'
       echo
    fi
+   if [ -n "$(var - password_postgres)" ]
+   then
+      echo '*******************************************************************************'
+      echo '* Container was started with environment variable REV_password_postgres set.  *'
+      echo '* This variable is only needed when a new database is initialized. To improve *'
+      echo '* security, restart the container without it.                                 *'
+      echo '*******************************************************************************'
+      echo
+   fi
 fi
 exec /usr/bin/env -i $BIN_DIR/sudo -u $NAME $BIN_DIR/postgres --config_file="$CONFIG_FILE"
