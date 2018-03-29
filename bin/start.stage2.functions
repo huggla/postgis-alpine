@@ -67,7 +67,12 @@ makeallfromenvlist(){
    done
 }
 makepwfile(){
-   local currentuser="$user"
+   if [ -n "$user" ]
+   then
+      local currentuser="$user"
+   else
+      local currentuser="$NAME"
+   fi
    local user_lc="$(tolower "$currentuser")"
    local pwfile="$(var - password_file_$user_lc)"
    if [ -z "$pwfile" ]
