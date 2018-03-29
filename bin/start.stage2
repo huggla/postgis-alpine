@@ -2,7 +2,7 @@
 set -e +a +m +s +i -f
 
 readonly BIN_DIR="$(/usr/bin/dirname "$0")"
-. "$(/usr/bin/dirname "$0")/start.stage2.functions"
+. "$BIN_DIR/start.stage2.functions"
 env_list="$(listfromfile "$BIN_DIR/buildtime_environment")"
 readonly NAME="$(var - NAME)"
 readonly CONFIG_FILE="$(var - CONFIG_FILE)"
@@ -67,26 +67,24 @@ then
 
 # internal start of server in order to allow set-up using psql-client
 # does not listen on external TCP/IP and waits until start finishes
-		pg_ctl --pgdata="$param_data_directory" --options="-c listen_addresses='localhost'" --wait start
-
-		psql_cmd="psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres"
-
-		for file in /docker-entrypoint-initdb.d/*; do
-			case "$f" in
-				*.sh)     echo "$0: running $f"; . "$f" ;;
-				*.sql)    echo "$0: running $f"; "${psql[@]}" -f "$f"; echo ;;
-				*.sql.gz) echo "$0: running $f"; gunzip -c "$f" | "${psql[@]}"; echo ;;
-				*)        echo "$0: ignoring $f" ;;
-			esac
-			echo
-		done
-
-		PGUSER="${PGUSER:-postgres}" \
-		pg_ctl -D "$PGDATA" -m fast -w stop
-
-		echo
-		echo 'PostgreSQL init process complete; ready for start up.'
-		echo
+      /usr/bin/env -i sudo -u postgres /usr/local/bin/pg_ctl --pgdata="$param_data_directory" --options="-c listen_addresses='localhost'" --wait start
+      psql_cmd="/usr/bin/env -i sudo -u postgres /usr/local/bin/psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres"
+      makedir "$CONFIG_DIR/initdb"
+      set +f
+      for initdb_file in $CONFIG_DIR/initdb/*
+      do
+         case "$initdb_file" in
+            *.sh)     echo "Running $initdb_file"; . "$initdb_file" ;;
+            *.sql)    echo "Running $initdb_file"; $psql_cmd -f "$initdb_file"; echo ;;
+            *.sql.gz) echo "Running $initdb_file"; /bin/gunzip -c "$initdb_file" | $psql_cmd; echo ;;
+            *)        echo "Ignoring $initdb_file" ;;
+         esac
+         echo
+      done
+      /usr/bin/env -i sudo -u postgres /usr/local/bin/pg_ctl --pgdata="$param_data_directory" --mode=fast --wait stop
+      echo
+      echo 'PostgreSQL init process complete; ready for start up.'
+      echo
    fi
 fi
 #exec /usr/bin/env -i "/bin/bash"
