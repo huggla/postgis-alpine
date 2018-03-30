@@ -70,7 +70,7 @@ RUN apk add --no-cache --virtual .fetch-deps ca-certificates openssl tar \
 
 RUN chmod go= /bin /sbin /usr/bin /usr/sbin \
  && chown root:$BEV_NAME "$BIN_DIR/"* \
- && chmod u=rX,g=rX,o= "$BIN_DIR/"* \
+ && chmod u=rx,g=rx,o= "$BIN_DIR/"* \
  && ln /usr/bin/sudo "$BIN_DIR/sudo" \
  && chown root:sudoer "$BIN_DIR/sudo" "$BUILDTIME_ENVIRONMENT" "$RUNTIME_ENVIRONMENT" \
  && chmod u+s "$BIN_DIR/sudo" \
