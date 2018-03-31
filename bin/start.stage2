@@ -60,7 +60,7 @@ then
       readonly ENCODING="$(var - ENCODING)"
       readonly TEXT_SEARCH_CONFIG="$(var - TEXT_SEARCH_CONFIG)"
       /bin/chmod go=rx /bin
-      /usr/bin/env -i sudo -u $NAME TZ="$(var param timezone)" $BIN_DIR/initdb --pgdata="$param_data_directory" --locale="$LOCALE" --encoding="$ENCODING" --text-search-config="$TEXT_SEARCH_CONFIG" --username="$NAME" --pwfile="$pwfile"
+      /usr/bin/env -i sudo -u $NAME TZ="$(var param timezone | /usr/bin/tr -d "'")" $BIN_DIR/initdb --pgdata="$param_data_directory" --locale="$LOCALE" --encoding="$ENCODING" --text-search-config="$TEXT_SEARCH_CONFIG" --username="$NAME" --pwfile="$pwfile"
       trydeletefile "$pwfile"
       trydeletefile "$param_data_directory/postgresql.conf"
       trydeletefile "$param_data_directory/pg_hba.conf"
