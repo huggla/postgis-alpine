@@ -12,7 +12,7 @@ RUN /sbin/apk add --no-cache --virtual .fetch-deps ca-certificates openssl tar \
  && /bin/tar --use-compress-program=/bin/gzip --extract --file postgis.tar.gz --directory /usr/src/postgis --strip-components 1 \
  && /bin/rm postgis.tar.gz \
  && /sbin/apk add --no-cache --virtual .build-deps autoconf automake g++ json-c-dev libtool libxml2-dev make perl \
- && apk add --no-cache --virtual .build-deps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing gdal-dev geos-dev proj4-dev protobuf-c-dev \
+ && /sbin/apk add --no-cache --virtual .build-deps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing gdal-dev geos-dev proj4-dev protobuf-c-dev \
  && cd /usr/src/postgis \
  && ./autogen.sh \
 # configure options taken from:
