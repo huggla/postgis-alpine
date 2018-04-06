@@ -4,8 +4,9 @@ USER root
 
 COPY ./initdb/* "$CONFIG_DIR/initdb/"
 
-ENV POSTGIS_VERSION 2.4.3
-ENV POSTGIS_SHA256 b9754c7b9cbc30190177ec34b570717b2b9b88ed271d18e3af68eca3632d1d95
+ENV POSTGIS_VERSION="2.4.3" \
+    POSTGIS_SHA256="b9754c7b9cbc30190177ec34b570717b2b9b88ed271d18e3af68eca3632d1d95" \
+    PATH="$BIN_DIR:/bin:/sbin:/usr/bin:/usr/sbin"
 
 RUN /sbin/apk add --no-cache --virtual .fetch-deps ca-certificates openssl tar \
  && /usr/bin/wget -O postgis.tar.gz "https://github.com/postgis/postgis/archive/$POSTGIS_VERSION.tar.gz" \
@@ -32,3 +33,5 @@ RUN /sbin/apk add --no-cache --virtual .fetch-deps ca-certificates openssl tar \
  && /bin/chmod -R u=rwX,g=rX,o= "$CONFIG_DIR/initdb"
 
 USER sudoer
+
+ENV PATH="$BIN_DIR"
