@@ -2,6 +2,8 @@ FROM huggla/postgres-alpine
 
 USER root
 
+COPY ./initdb/* "$CONFIG_DIR/initdb/"
+
 ENV POSTGIS_VERSION 2.4.3
 ENV POSTGIS_SHA256 b9754c7b9cbc30190177ec34b570717b2b9b88ed271d18e3af68eca3632d1d95
 
@@ -25,6 +27,8 @@ RUN /sbin/apk add --no-cache --virtual .fetch-deps ca-certificates openssl tar \
  && /sbin/apk add --no-cache --virtual .postgis-rundeps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing geos gdal proj4 protobuf-c \
  && cd / \
  && /bin/rm -rf /usr/src/postgis \
- && /sbin/apk del .fetch-deps .build-deps .build-deps-testing
+ && /sbin/apk del .fetch-deps .build-deps .build-deps-testing \
+ && /bin/chown -R root:$BEV_NAME "$CONFIG_DIR/initdb" \
+ && /bin/chmod -R u=rwX,g=rX,o= "$CONFIG_DIR/initdb"
 
 USER sudoer
