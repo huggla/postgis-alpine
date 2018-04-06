@@ -20,7 +20,6 @@ RUN /sbin/apk add --no-cache --virtual .fetch-deps ca-certificates openssl tar \
 # configure options taken from:
 # https://anonscm.debian.org/cgit/pkg-grass/postgis.git/tree/debian/rules?h=jessie
  && ./configure \
-#       --with-gui \
  && /usr/bin/make \
  && /usr/bin/make install \
  && /sbin/apk add --no-cache --virtual .postgis-rundeps json-c \
