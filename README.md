@@ -12,8 +12,8 @@ A small and secure Docker image of Postgis. Based on huggla/postgres-alpine.
 * REV_CREATE_EXTENSION_PGAGENT="yes"
 * REV_password_postgres=generated, random
 * REV_param_data_directory="'/pgdata'"
-* REV_param_hba_file="'$CONFIG_DIR/pg_hba.conf'"
-* REV_param_ident_file="'$CONFIG_DIR/pg_ident.conf'"
+* REV_param_hba_file="'/etc/postgres/pg_hba.conf'"
+* REV_param_ident_file="'/etc/postgres/pg_ident.conf'"
 * REV_param_unix_socket_directories="'/var/run/postgresql'"
 * REV_param_listen_addresses="'*'"
 * REV_param_timezone="'UTC'"
