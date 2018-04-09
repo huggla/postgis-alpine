@@ -1,4 +1,4 @@
-FROM huggla/postgres-alpine
+FROM huggla/postgis-alpine
 
 USER root
 
