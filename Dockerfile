@@ -17,8 +17,6 @@ RUN /sbin/apk add --no-cache --virtual .fetch-deps ca-certificates openssl tar \
  && /sbin/apk add --no-cache --virtual .build-deps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing gdal-dev geos-dev proj4-dev protobuf-c-dev \
  && cd /usr/src/postgis \
  && ./autogen.sh \
-# configure options taken from:
-# https://anonscm.debian.org/cgit/pkg-grass/postgis.git/tree/debian/rules?h=jessie
  && ./configure \
  && /usr/bin/make \
  && /usr/bin/make install \
