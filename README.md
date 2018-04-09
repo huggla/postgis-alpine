@@ -1,7 +1,7 @@
 **Note! I use Docker latest tag for development, which means that it isn't allways working. Date tags are stable.**
 
 # postgis-alpine
-A small and secure Docker image of Postgis. Based on huggla/postgres-alpine.
+A small and secure Docker image of Postgis 2.4.3. Based on huggla/postgres-alpine (Postgresql 10.3).
 
 ## Environment variables
 ### pre-set runtime variables
