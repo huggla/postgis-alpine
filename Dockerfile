@@ -25,7 +25,7 @@ RUN /sbin/apk add --no-cache --virtual .fetch-deps ca-certificates openssl tar \
  && cd / \
  && /bin/rm -rf /usr/src/postgis \
  && /sbin/apk del .fetch-deps .build-deps .build-deps-testing \
- && /bin/chown -R root:$BEV_NAME "$CONFIG_DIR/initdb" \
+ && /bin/chown -R root:$REV_LINUX_USER "$CONFIG_DIR/initdb" \
  && /bin/chmod -R u=rwX,g=rX,o= "$CONFIG_DIR/initdb"
 
 USER sudoer
