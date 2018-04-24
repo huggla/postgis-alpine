@@ -22,6 +22,6 @@ RUN downloadDir="$(mktemp -d)" \
  && /sbin/apk add --no-cache --virtual .postgis-rundeps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing geos gdal proj4 protobuf-c \
  && cd / \
  && /bin/rm -rf "$buildDir" \
- && /sbin/apk del .fetch-deps .build-deps .build-deps-testing
+ && /sbin/apk del .build-deps .build-deps-testing
 
 USER sudoer
