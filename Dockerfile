@@ -4,13 +4,10 @@ USER root
 
 COPY ./initdb "$CONFIG_DIR/initdb"
 
-ENV POSTGIS_VERSION="2.4.3" \
-    POSTGIS_SHA256="b9754c7b9cbc30190177ec34b570717b2b9b88ed271d18e3af68eca3632d1d95"
+ENV POSTGIS_VERSION="2.4.3"
 
-RUN /sbin/apk add --no-cache --virtual .fetch-deps ca-certificates openssl \
- && downloadDir="$(mktemp -d)" \
+RUN downloadDir="$(mktemp -d)" \
  && /usr/bin/wget -O "$downloadDir/postgis.tar.gz" "https://github.com/postgis/postgis/archive/$POSTGIS_VERSION.tar.gz" \
- && echo "$POSTGIS_SHA256 $downloadDir/postgis.tar.gz" | /usr/bin/sha256sum -c - \
  && buildDir="$(mktemp -d)" \
  && /bin/tar --use-compress-program=/bin/gzip --extract --file "$downloadDir/postgis.tar.gz" --directory "$buildDir" --strip-components 1 \
  && /bin/rm -rf "$downloadDir" \
