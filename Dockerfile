@@ -9,7 +9,7 @@ ENV POSTGIS_VERSION="2.4.3"
 RUN downloadDir="$(mktemp -d)" \
  && /usr/bin/wget -O "$downloadDir/postgis.tar.gz" "https://github.com/postgis/postgis/archive/$POSTGIS_VERSION.tar.gz" \
  && buildDir="$(mktemp -d)" \
- && /bin/tar --use-compress-program=/bin/gzip --extract --file "$downloadDir/postgis.tar.gz" --directory "$buildDir" --strip-components 1 \
+ && /bin/tar --extract --file "$downloadDir/postgis.tar.gz" --directory "$buildDir" --strip-components 1 \
  && /bin/rm -rf "$downloadDir" \
  && /sbin/apk add --no-cache --virtual .build-deps autoconf automake g++ json-c-dev libtool libxml2-dev make perl \
  && /sbin/apk add --no-cache --virtual .build-deps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing gdal-dev geos-dev proj4-dev protobuf-c-dev \
