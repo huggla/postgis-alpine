@@ -3,7 +3,7 @@ FROM huggla/postgres-alpine
 USER root
 
 # Build-only variables
-ENV POSTGIS_VERSION="2.4.3"
+ENV POSTGIS_VERSION="2.4.4"
 
 COPY ./initdb /initdb
 
