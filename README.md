@@ -15,7 +15,6 @@ A small and secure Docker image of Postgis 2.4.4. Based on huggla/postgres-alpin
 * VAR_ARGON2_PARAMS="-r" (only used if VAR_ENCRYPT_PW is set to "yes")
 * VAR_SALT_FILE="/proc/sys/kernel/hostname" (only used if VAR_ENCRYPT_PW is set to "yes")
 * VAR_LINUX_USER="postgres" (also database owner/superuser)
-* VAR_password_postgres=generated, random
 * VAR_param_data_directory="'/pgdata'"
 * VAR_param_hba_file="'/etc/postgres/pg_hba.conf'"
 * VAR_param_ident_file="'/etc/postgres/pg_ident.conf'"
