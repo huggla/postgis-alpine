@@ -4,7 +4,7 @@ USER root
 
 # Build-only variables
 ENV POSTGIS_VERSION="2.4.4" \
-    GDAL_VERSION="2.2.4-r0"
+    GDAL_VERSION="2.3.0-r0"
 
 COPY ./initdb /initdb
 
