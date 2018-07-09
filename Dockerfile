@@ -6,6 +6,8 @@ USER root
 ENV POSTGIS_VERSION="2.4.4" \
     GDAL_VERSION="2.3.0-r0"
 
+COPY ./initdb /rootfs/initdb
+
 RUN downloadDir="$(mktemp -d)" \
  && wget -O "$downloadDir/postgis.tar.gz" "https://github.com/postgis/postgis/archive/$POSTGIS_VERSION.tar.gz" \
  && buildDir="$(mktemp -d)" \
@@ -24,12 +26,12 @@ RUN downloadDir="$(mktemp -d)" \
  && rm -rf "$buildDir" \
  && apk del .build-deps .build-deps-testing \
  && tar -cpf /installed_files.tar $(apk manifest .postgis-rundeps .postgis-rundeps-testing | awk -F "  " '{print $2;}') \
-
+ && tar -xpf /installed_files.tar -C /rootfs/
 
 FROM huggla/postgres-alpine
 
 USER root
 
-COPY ./initdb /initdb
+COPY --from=stage1 /rootfs / 
 
 USER starter
