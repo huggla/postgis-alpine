@@ -23,7 +23,7 @@ A small and secure Docker image of Postgis 2.4.4. Based on huggla/postgres-alpin
 * VAR_param_timezone="'UTC'"
 
 ### Optional runtime variables
-* VAR_param_&lt;postgres parameter name&gt;_&lt;
+* VAR_param_&lt;postgres parameter name&gt;
 * VAR_password_file_&lt;VAR_LINUX_USER&gt;
 * VAR_password_&lt;VAR_LINUX_USER&gt;
 * VAR_ENCRYPT_PW (set to "yes" to hash password with Argon2)
@@ -32,4 +32,4 @@ A small and secure Docker image of Postgis 2.4.4. Based on huggla/postgres-alpin
 Can drop all but CHOWN, DAC_OVERRIDE, FOWNER, SETGID and SETUID.
 
 ## Tips
-Works with huggla/pgagent-alpine, huggla/pgbouncer-alpine and huggla/pgadmin-alpine.
+Works with huggla/pgagent-alpine, huggla/pgbouncer-alpine, huggla/pgadmin-alpine and huggla/postgres-backup.
