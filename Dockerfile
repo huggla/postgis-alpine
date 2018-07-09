@@ -1,12 +1,10 @@
-FROM huggla/postgres-alpine
+FROM huggla/postgres-alpine as stage1
 
 USER root
 
 # Build-only variables
 ENV POSTGIS_VERSION="2.4.4" \
     GDAL_VERSION="2.3.0-r0"
-
-COPY ./initdb /initdb
 
 RUN downloadDir="$(mktemp -d)" \
  && /usr/bin/wget -O "$downloadDir/postgis.tar.gz" "https://github.com/postgis/postgis/archive/$POSTGIS_VERSION.tar.gz" \
@@ -25,5 +23,11 @@ RUN downloadDir="$(mktemp -d)" \
  && cd / \
  && /bin/rm -rf "$buildDir" \
  && /sbin/apk del .build-deps .build-deps-testing
+
+FROM huggla/postgres-alpine
+
+USER root
+
+COPY ./initdb /initdb
 
 USER starter
