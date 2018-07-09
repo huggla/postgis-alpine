@@ -25,7 +25,7 @@ RUN downloadDir="$(mktemp -d)" \
  && cd / \
  && rm -rf "$buildDir" \
  && apk del .build-deps .build-deps-testing \
- && tar -cpf /installed_files.tar $(apk manifest .postgis-rundeps .postgis-rundeps-testing | awk -F "  " '{print $2;}') \
+ && tar -cpf /installed_files.tar $(apk manifest json-c geos gdal proj4 protobuf-c | awk -F "  " '{print $2;}') \
  && tar -xpf /installed_files.tar -C /rootfs/
 
 FROM huggla/postgres-alpine
