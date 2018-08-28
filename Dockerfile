@@ -18,7 +18,7 @@ RUN downloadDir="$(mktemp -d)" \
  && make \
  && make install \
  && apk add --no-cache --virtual .postgis-rundeps json-c \
- && apk add --no-cache --virtual .postgis-rundeps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted geos gdal=$GDAL_VERSION proj4 protobuf-c \
+ && apk add --no-cache --virtual .postgis-rundeps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted geos gdal proj4 protobuf-c \
  && cd / \
  && rm -rf "$buildDir" \
  && apk del .build-deps .build-deps-testing \
