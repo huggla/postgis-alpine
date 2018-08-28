@@ -1,7 +1,7 @@
 FROM huggla/postgres-alpine as stage1
 
 ARG POSTGIS_VERSION="2.4.4"
-ARG GDAL_VERSION="2.3.0-r0"
+ARG GDAL_VERSION="2.3.1"
 
 COPY ./rootfs /rootfs
 
@@ -11,7 +11,7 @@ RUN downloadDir="$(mktemp -d)" \
  && tar --extract --file "$downloadDir/postgis.tar.gz" --directory "$buildDir" --strip-components 1 \
  && rm -rf "$downloadDir" \
  && apk add --no-cache --virtual .build-deps autoconf automake g++ json-c-dev libtool libxml2-dev make perl \
- && apk add --no-cache --virtual .build-deps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted gdal-dev=$GDAL_VERSION geos-dev proj4-dev protobuf-c-dev \
+ && apk add --no-cache --virtual .build-deps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted gdal-dev geos-dev proj4-dev protobuf-c-dev \
  && cd "$buildDir" \
  && ./autogen.sh \
  && ./configure \
