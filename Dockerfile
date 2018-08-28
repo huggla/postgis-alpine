@@ -1,12 +1,9 @@
 FROM huggla/postgres-alpine as stage1
 
-USER root
+ARG POSTGIS_VERSION="2.4.4"
+ARG GDAL_VERSION="2.3.0-r0"
 
-# Build-only variables
-ENV POSTGIS_VERSION="2.4.4" \
-    GDAL_VERSION="2.3.0-r0"
-
-COPY ./initdb /rootfs/initdb
+COPY ./rootfs /rootfs
 
 RUN downloadDir="$(mktemp -d)" \
  && wget -O "$downloadDir/postgis.tar.gz" "https://github.com/postgis/postgis/archive/$POSTGIS_VERSION.tar.gz" \
@@ -25,13 +22,13 @@ RUN downloadDir="$(mktemp -d)" \
  && cd / \
  && rm -rf "$buildDir" \
  && apk del .build-deps .build-deps-testing \
- && tar -cpf /installed_files.tar $(apk manifest json-c geos gdal proj4 protobuf-c | awk -F "  " '{print $2;}') \
- && tar -xpf /installed_files.tar -C /rootfs/
+ && tar -cvp -f /installed_files.tar -C / $(apk manifest json-c geos gdal proj4 protobuf-c | awk -F "  " '{print $2;}') \
+ && tar -xvp -f /installed_files.tar -C /rootfs/
 
 FROM huggla/postgres-alpine
-
-USER root
 
 COPY --from=stage1 /rootfs / 
 
 USER starter
+
+ONBUILD USER root
