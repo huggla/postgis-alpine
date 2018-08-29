@@ -1,6 +1,7 @@
 FROM huggla/postgres-alpine as stage1
 
 ARG POSTGIS_VERSION="2.4.4"
+ARG GDAL_VERSION="2.3.1"
 
 COPY ./rootfs /rootfs
 
