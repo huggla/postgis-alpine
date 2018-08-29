@@ -30,6 +30,4 @@ COPY --from=stage1 /rootfs /
 
 USER starter
 
-STOPSIGNAL SIGINT
-
 ONBUILD USER root
