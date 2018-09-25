@@ -7,8 +7,8 @@ COPY --from=stage1 / /
 COPY ./rootfs /rootfs
 
 RUN rm -rf /usr/local/bin/sudo /usr/lib/sudo \
- && apk add --no-cache --virtual .postgis-rundeps json-c \
- && apk add --no-cache --virtual .postgis-rundeps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted geos gdal proj4 protobuf-c \
+ && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+ && apk add --no-cache --allow-untrusted json-c geos gdal proj4 protobuf-c \
  && apk --no-cache --quiet info > /apks.list \
  && apk --no-cache --quiet manifest $(cat /apks.list) | awk -F "  " '{print $2;}' > /apks_files.list \
  && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
