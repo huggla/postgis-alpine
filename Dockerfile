@@ -3,8 +3,7 @@ FROM huggla/alpine-slim:20180921-edge as stage2
 
 ARG POSTGIS_VERSION="2.4.4"
 
-COPY --from=stage1 /usr/local /usr/local
-COPY --from=stage1 /usr/lib /usr/lib
+COPY --from=stage1 / /
 COPY ./rootfs /rootfs
 
 RUN rm -rf /usr/local/bin/sudo /usr/lib/sudo \
@@ -23,7 +22,7 @@ RUN rm -rf /usr/local/bin/sudo /usr/lib/sudo \
  && rm -rf "$downloadDir" \
  && cd "$buildDir" \
  && ./autogen.sh \
- && ./configure \
+ && ./configure --prefix=/usr/local --with-includes=/usr/local/include --with-libraries=/usr/local/lib \
  && make \
  && make install \
  && cd / \
