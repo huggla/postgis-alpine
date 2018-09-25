@@ -26,6 +26,7 @@ RUN rm -rf /usr/local/bin/sudo /usr/lib/sudo \
  && make \
  && make install \
  && cd / \
+ && find -name postgis.control \
  && rm -rf "$buildDir" \
  && mkdir -p /rootfs/usr \
  && cp -a /usr/local /usr/lib /rootfs/usr/ \
