@@ -7,7 +7,8 @@ COPY --from=stage1 /usr/local /usr/local
 COPY --from=stage1 /usr/lib /usr/lib
 COPY ./rootfs /rootfs
 
-RUN apk add --no-cache --virtual .postgis-rundeps json-c \
+RUN rm -rf /usr/local/bin/sudo /usr/lib/sudo \
+ && apk add --no-cache --virtual .postgis-rundeps json-c \
  && apk add --no-cache --virtual .postgis-rundeps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted geos gdal proj4 protobuf-c \
  && apk --no-cache --quiet info > /apks.list \
  && apk --no-cache --quiet manifest $(cat /apks.list) | awk -F "  " '{print $2;}' > /apks_files.list \
@@ -15,7 +16,6 @@ RUN apk add --no-cache --virtual .postgis-rundeps json-c \
  && tar -xvp -f /apks_files.tar -C /rootfs/ \
  && apk add --no-cache --virtual .build-deps autoconf automake g++ json-c-dev libtool libxml2-dev make perl ssl_client \
  && apk add --no-cache --virtual .build-deps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted gdal-dev geos-dev proj4-dev protobuf-c-dev \
-
  && downloadDir="$(mktemp -d)" \
  && wget -O "$downloadDir/postgis.tar.gz" "https://github.com/postgis/postgis/archive/$POSTGIS_VERSION.tar.gz" \
  && buildDir="$(mktemp -d)" \
