@@ -1,10 +1,19 @@
 FROM huggla/postgres-alpine:20180921-edge as stage1
+FROM huggla/alpine-slim:20180921-edge as stage2
 
 ARG POSTGIS_VERSION="2.4.4"
 
+COPY --from=stage1 /usr/local /usr/local
+COPY --from=stage1 /usr/lib /usr/lib
 COPY ./rootfs /rootfs
 
-RUN downloadDir="$(mktemp -d)" \
+RUN apk add --no-cache --virtual .postgis-rundeps json-c \
+ && apk add --no-cache --virtual .postgis-rundeps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted geos gdal proj4 protobuf-c \
+ && apk --no-cache --quiet info > /apks.list \
+ && apk --no-cache --quiet manifest $(cat /apks.list) | awk -F "  " '{print $2;}' > /apks_files.list \
+ && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
+ && tar -xvp -f /apks_files.tar -C /rootfs/ \
+ && downloadDir="$(mktemp -d)" \
  && wget -O "$downloadDir/postgis.tar.gz" "https://github.com/postgis/postgis/archive/$POSTGIS_VERSION.tar.gz" \
  && buildDir="$(mktemp -d)" \
  && tar --extract --file "$downloadDir/postgis.tar.gz" --directory "$buildDir" --strip-components 1 \
@@ -16,13 +25,11 @@ RUN downloadDir="$(mktemp -d)" \
  && ./configure \
  && make \
  && make install \
- && apk add --no-cache --virtual .postgis-rundeps json-c \
- && apk add --no-cache --virtual .postgis-rundeps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted geos gdal proj4 protobuf-c \
  && cd / \
  && rm -rf "$buildDir" \
- && apk del .build-deps .build-deps-testing \
- && tar -cvp -f /installed_files.tar -C / $(apk manifest json-c geos gdal proj4 protobuf-c | awk -F "  " '{print $2;}') \
- && tar -xvp -f /installed_files.tar -C /rootfs/
+ && mkdir -p /rootfs/usr \
+ && cp -a /usr/local /usr/lib /rootfs/usr/ \
+ && apk del .build-deps .build-deps-testing
 
 FROM huggla/postgres-alpine:20180921-edge
 
