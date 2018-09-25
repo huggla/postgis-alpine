@@ -1,4 +1,4 @@
-FROM huggla/postgres-alpine as stage1
+FROM huggla/postgres-alpine:20180921-edge as stage1
 
 ARG POSTGIS_VERSION="2.4.4"
 
@@ -24,7 +24,7 @@ RUN downloadDir="$(mktemp -d)" \
  && tar -cvp -f /installed_files.tar -C / $(apk manifest json-c geos gdal proj4 protobuf-c | awk -F "  " '{print $2;}') \
  && tar -xvp -f /installed_files.tar -C /rootfs/
 
-FROM huggla/postgres-alpine
+FROM huggla/postgres-alpine:20180921-edge
 
 COPY --from=stage1 /rootfs / 
 
