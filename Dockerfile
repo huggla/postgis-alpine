@@ -8,7 +8,7 @@ COPY ./rootfs /rootfs
 
 RUN rm -rf /usr/local/bin/sudo /usr/lib/sudo \
  && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
- && apk add --no-cache --allow-untrusted json-c geos gdal proj4 protobuf-c \
+ && apk add --no-cache --allow-untrusted json-c geos gdal proj4 protobuf-c libressl2.7-libssl openldap libxml2 libedit \
  && apk --no-cache --quiet info > /apks.list \
  && apk --no-cache --quiet manifest $(cat /apks.list) | awk -F "  " '{print $2;}' > /apks_files.list \
  && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
