@@ -34,7 +34,7 @@ RUN apk add --no-cache --virtual .postgis-rundeps json-c \
 
 FROM huggla/postgres-alpine:20180921-edge
 
-COPY --from=stage1 /rootfs / 
+COPY --from=stage2 /rootfs / 
 
 USER starter
 
