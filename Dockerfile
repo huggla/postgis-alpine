@@ -14,7 +14,7 @@ RUN rm -rf /usr/local/bin/sudo /usr/lib/sudo \
  && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
  && tar -xvp -f /apks_files.tar -C /rootfs/ \
  && apk add --no-cache --virtual .build-deps autoconf automake g++ json-c-dev libtool libxml2-dev make perl ssl_client \
- && apk add --no-cache --virtual .build-deps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted gdal-dev geos-dev proj4-dev protobuf-c-dev \
+ && apk add --no-cache --virtual .build-deps-testing --allow-untrusted gdal-dev geos-dev proj4-dev protobuf-c-dev \
  && downloadDir="$(mktemp -d)" \
  && wget -O "$downloadDir/postgis.tar.gz" "https://github.com/postgis/postgis/archive/$POSTGIS_VERSION.tar.gz" \
  && buildDir="$(mktemp -d)" \
