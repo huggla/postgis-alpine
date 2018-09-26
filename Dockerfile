@@ -24,7 +24,6 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
  && /sbin/apk add --no-cache --virtual .postgis-rundeps json-c \
  && /sbin/apk add --no-cache --virtual .postgis-rundeps-testing --allow-untrusted geos gdal proj4 protobuf-c \
  && cd / \
- && /bin/rm -rf "$buildDir" \
- && /sbin/apk del .build-deps .build-deps-testing
+ && /bin/rm -rf "$buildDir"
 
 USER starter
