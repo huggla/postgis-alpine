@@ -24,9 +24,12 @@ RUN rm -rf /usr/local/bin/sudo /usr/lib/sudo \
  && ./autogen.sh \
  && ./configure --prefix=/usr/local --with-includes=/usr/local/include --with-libraries=/usr/local/lib \
  && make \
+ && find / > /pre-install.list \
  && make install \
+ && find / > /post-install.list \
+ && diff /pre-install.list /post-install.list \
  && cd / \
- && find -name postgis.control \
+# && find -name postgis.control \
  && rm -rf "$buildDir" \
  && mkdir -p /rootfs/usr \
  && cp -a /usr/local /usr/lib /rootfs/usr/ \
