@@ -18,10 +18,10 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
  && /sbin/apk add --no-cache --virtual .build-deps-testing --allow-untrusted gdal-dev geos-dev proj4-dev protobuf-c-dev \
  && cd "$buildDir" \
  && ./autogen.sh \
- && ./configure \
- && /usr/bin/make \
+ && ./configure --disable-gtktest	--disable-nls	--disable-rpath \
+ && /usr/bin/make -j1 \
  && /usr/bin/make install \
- && /sbin/apk add --no-cache --virtual .postgis-rundeps json-c pcre \
+ && /sbin/apk add --no-cache --virtual .postgis-rundeps json-c pcre perl \
  && /sbin/apk add --no-cache --virtual .postgis-rundeps-testing --allow-untrusted geos gdal proj4 protobuf-c \
  && cd / \
  && /bin/rm -rf "$buildDir"
