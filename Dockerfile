@@ -15,7 +15,9 @@ RUN downloadDir="$(mktemp -d)" \
  && ./autogen.sh \
  && ./configure \
  && /usr/bin/make \
+ && find / > /pre-install.list \
  && /usr/bin/make install \
+ && find / > /post-install.list \
  && /sbin/apk add --no-cache --virtual .postgis-rundeps json-c \
  && /sbin/apk add --no-cache --virtual .postgis-rundeps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted geos gdal proj4 protobuf-c \
  && cd / \
