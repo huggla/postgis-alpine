@@ -1,8 +1,10 @@
+FROM huggla/alpine-slim:20180921-edge as stage1
 FROM huggla/postgres-alpine:20180921-edge
 
 ARG POSTGIS_VERSION="2.4.4"
 
 COPY ./initdb /initdb
+COPY --from=stage1 /sbin/apk /sbin/apk
 
 RUN downloadDir="$(mktemp -d)" \
  && /usr/bin/wget -O "$downloadDir/postgis.tar.gz" "https://github.com/postgis/postgis/archive/$POSTGIS_VERSION.tar.gz" \
