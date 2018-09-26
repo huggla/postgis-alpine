@@ -1,4 +1,4 @@
-FROM huggla/postgres-alpine:20180921-edge-python
+FROM huggla/postgres-alpine:20180921-edge
 
 ARG POSTGIS_VERSION="2.4.4"
 
