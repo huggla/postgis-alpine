@@ -1,9 +1,6 @@
-FROM huggla/postgres-alpine:20180628-edge-python
+FROM huggla/postgres-alpine:20180921-edge-python
 
-USER root
-
-# Build-only variables
-ENV POSTGIS_VERSION="2.4.4"
+ARG POSTGIS_VERSION="2.4.4"
 
 COPY ./initdb /initdb
 
