@@ -18,6 +18,7 @@ RUN downloadDir="$(mktemp -d)" \
  && find / > /pre-install.list \
  && /usr/bin/make install \
  && find / > /post-install.list \
+ && diff /pre-install.list /post-install.list \
  && /sbin/apk add --no-cache --virtual .postgis-rundeps json-c \
  && /sbin/apk add --no-cache --virtual .postgis-rundeps-testing --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted geos gdal proj4 protobuf-c \
  && cd / \
