@@ -23,7 +23,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
  && /usr/bin/make install \
  && /sbin/apk add --no-cache --virtual .postgis-rundeps json-c pcre perl \
  && /sbin/apk add --no-cache --virtual .postgis-rundeps-testing --allow-untrusted geos gdal proj4 protobuf-c \
- && cp -a $buildDir/extensions/postgis/* /usr/local/share/postgresql/extension/ \
+# && cp -a $buildDir/extensions/postgis/* /usr/local/share/postgresql/extension/ \
  && cd / \
  && /bin/rm -rf "$buildDir"
 
