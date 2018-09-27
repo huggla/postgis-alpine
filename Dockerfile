@@ -1,6 +1,8 @@
 FROM huggla/alpine-slim:20180921-edge as stage1
 FROM huggla/postgres-alpine:20180628-edge-python
 
+USER root
+
 ARG POSTGIS_VERSION="2.4.4"
 
 COPY ./initdb /initdb
