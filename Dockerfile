@@ -1,5 +1,5 @@
 FROM huggla/alpine-slim:20180921-edge as stage1
-FROM huggla/postgres-alpine:20180921-edge
+FROM huggla/postgres-alpine:20180628-edge-python
 
 ARG POSTGIS_VERSION="2.4.4"
 
