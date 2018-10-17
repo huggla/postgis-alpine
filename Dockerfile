@@ -1,3 +1,4 @@
+ARG ADDREPOS="http://dl-cdn.alpinelinux.org/alpine/edge/testing"
 ARG RUNDEPS_UNTRUSTED="postgis"
 ARG BUILDCMDS=\
 "   cd /imagefs/usr/local "\
