@@ -1,44 +1,34 @@
-FROM huggla/postgres-alpine:20180921-edge as stage1
-FROM huggla/alpine-slim:20180921-edge as stage2
+ARG RUNDEPS="postgis"
+ARG BUILDCMDS=\
+"   cd /imagefs/usr/local "\
+"&& rm -rf bin "\
+"&& ln -s ../../usr/* ./ "\
+"&& rm bin "\
+"&& mkdir bin "\
+"&& cd bin "\
+"&& ln -s ../../bin/* ./ "\
+"&& rm postgres"
+ARG EXECUTABLES="/usr/bin/postgres"
 
-ARG POSTGIS_VERSION="2.4.4"
+FROM huggla/postgres-alpine:20181017-edge as init
+FROM huggla/build:20181017-edge as build
+FROM huggla/base:20181017-edge as image
 
-COPY --from=stage1 / /
-COPY ./rootfs /rootfs
+ARG CONFIG_DIR="/etc/postgres"
 
-RUN rm -rf /usr/local/bin/sudo /usr/lib/sudo \
- && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
- && apk add --no-cache --allow-untrusted json-c geos gdal proj4 protobuf-c libressl2.7-libssl openldap libxml2 libedit pcre \
- && apk --no-cache --quiet info > /apks.list \
- && apk --no-cache --quiet manifest $(cat /apks.list) | awk -F "  " '{print $2;}' > /apks_files.list \
- && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
- && tar -xvp -f /apks_files.tar -C /rootfs/ \
- && apk add --no-cache --virtual .build-deps autoconf automake g++ json-c-dev libtool libxml2-dev make perl ssl_client pcre-dev \
- && apk add --no-cache --virtual .build-deps-testing --allow-untrusted gdal-dev geos-dev proj4-dev protobuf-c-dev \
- && downloadDir="$(mktemp -d)" \
- && wget -O "$downloadDir/postgis.tar.gz" "https://github.com/postgis/postgis/archive/$POSTGIS_VERSION.tar.gz" \
- && buildDir="$(mktemp -d)" \
- && tar --extract --file "$downloadDir/postgis.tar.gz" --directory "$buildDir" --strip-components 1 \
- && rm -rf "$downloadDir" \
- && cd "$buildDir" \
- && ./autogen.sh \
- && ./configure --prefix=/usr/local --with-includes=/usr/local/include --with-libraries=/usr/local/lib \
- && make \
- && find / > /pre-install.list \
- && make install \
- && find / > /post-install.list \
- && diff /pre-install.list /post-install.list \
- && cd / \
-# && find -name postgis.control \
- && rm -rf "$buildDir" \
- && mkdir -p /rootfs/usr \
- && cp -a /usr/local /usr/lib /rootfs/usr/ \
- && apk del .build-deps .build-deps-testing
-
-FROM huggla/postgres-alpine:20180921-edge
-
-COPY --from=stage2 /rootfs / 
-
-USER starter
+ENV VAR_LINUX_USER="postgres" \
+    VAR_CONFIG_FILE="$CONFIG_DIR/postgresql.conf" \
+    VAR_LOCALE="en_US.UTF-8" \
+    VAR_ENCODING="UTF8" \
+    VAR_TEXT_SEARCH_CONFIG="english" \
+    VAR_HBA="local all all trust, host all all 127.0.0.1/32 trust, host all all ::1/128 trust, host all all all md5" \
+    VAR_CREATE_EXTENSION_PGAGENT="yes" \
+    VAR_param_data_directory="'/pgdata'" \
+    VAR_param_hba_file="'$CONFIG_DIR/pg_hba.conf'" \
+    VAR_param_ident_file="'$CONFIG_DIR/pg_ident.conf'" \
+    VAR_param_unix_socket_directories="'/var/run/postgresql'" \
+    VAR_param_listen_addresses="'*'" \
+    VAR_param_timezone="'UTC'" \
+    VAR_FINAL_COMMAND="postgres --config_file=\"\$VAR_CONFIG_FILE\""
 
 ONBUILD USER root
