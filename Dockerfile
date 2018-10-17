@@ -2,7 +2,7 @@ ARG ADDREPOS="http://dl-cdn.alpinelinux.org/alpine/edge/testing"
 ARG RUNDEPS_UNTRUSTED="postgis"
 ARG BUILDCMDS=\
 "   cd /imagefs/usr/local "\
-"&& rm -rf bin "\
+"&& rm -rf * "\
 "&& ln -s ../../usr/* ./ "\
 "&& rm bin "\
 "&& mkdir bin "\
