@@ -1,4 +1,4 @@
-ARG RUNDEPS="postgis"
+ARG RUNDEPS_UNTRUSTED="postgis"
 ARG BUILDCMDS=\
 "   cd /imagefs/usr/local "\
 "&& rm -rf bin "\
