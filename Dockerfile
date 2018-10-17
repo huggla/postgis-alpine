@@ -2,7 +2,7 @@ ARG ADDREPOS="http://dl-cdn.alpinelinux.org/alpine/edge/testing"
 ARG RUNDEPS_UNTRUSTED="postgis"
 ARG BUILDCMDS=\
 "   cd /imagefs/usr/local "\
-"&& rm -rf * "\
+"&& rm -rf bin "\
 "&& ln -s ../../usr/* ./ "\
 "&& rm bin "\
 "&& mkdir bin "\
@@ -11,9 +11,9 @@ ARG BUILDCMDS=\
 "&& rm postgres"
 ARG EXECUTABLES="/usr/bin/postgres"
 
-FROM huggla/postgres-alpine:20181017-edge as init
+FROM huggla/busybox:20181017-edge as init
 FROM huggla/build:20181017-edge as build
-FROM huggla/base:20181017-edge as image
+FROM huggla/postgres-alpine:20181017-edge as image
 
 ARG CONFIG_DIR="/etc/postgres"
 
