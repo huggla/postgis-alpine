@@ -3,7 +3,7 @@ ARG RUNDEPS_UNTRUSTED="postgis"
 ARG BUILDCMDS=\
 "   cd /imagefs/usr/local "\
 "&& rm -rf bin "\
-"&& ln -s ../../usr/* ./ "\
+"&& ln -sf ../../usr/* ./ "\
 "&& rm bin "\
 "&& mkdir bin "\
 "&& cd bin "\
