@@ -1,16 +1,16 @@
 ARG BASEIMAGE="huggla/postgres-alpine"
 ARG ADDREPOS="http://dl-cdn.alpinelinux.org/alpine/edge/testing"
 ARG RUNDEPS_UNTRUSTED="postgis"
-ARG BUILDCMDS=\
-"   cd /imagefs/usr/local "\
-"&& rm -rf bin "\
-"&& ln -sf ../../usr/* ./ "\
-"&& rm bin "\
-"&& mkdir bin "\
-"&& cd bin "\
-"&& ln -s ../../bin/* ./ "\
-"&& rm postgres"
-ARG EXECUTABLES="/usr/bin/postgres"
+#ARG BUILDCMDS=\
+#"   cd /imagefs/usr/local "\
+#"&& rm -rf bin "\
+#"&& ln -sf ../../usr/* ./ "\
+#"&& rm bin "\
+#"&& mkdir bin "\
+#"&& cd bin "\
+#"&& ln -s ../../bin/* ./ "\
+#"&& rm postgres"
+#ARG EXECUTABLES="/usr/bin/postgres"
 
 #---------------Don't edit----------------
 FROM ${CONTENTIMAGE1:-scratch} as content1
