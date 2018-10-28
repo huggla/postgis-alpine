@@ -5,7 +5,7 @@ ARG BUILDCMDS=\
 "   cd /imagefs/usr/local "\
 "&& rm -rf lib share "\
 "&& ln -sf ../../usr/lib lib "\
-"&& ln -sf ../../usr/lib share "
+"&& ln -sf ../../usr/share share "
 
 #---------------Don't edit----------------
 FROM ${CONTENTIMAGE1:-scratch} as content1
