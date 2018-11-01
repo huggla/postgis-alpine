@@ -1,4 +1,4 @@
-**Note! I use Docker latest tag for development, which means that it isn't allways working. Date tags are stable.**
+**Deprecated, use huggla/postgres-alpine:postgis instead**
 
 # postgis-alpine
 A small and secure Docker image of Postgis 2.4.4. Based on huggla/postgres-alpine (Postgresql 10.4).
